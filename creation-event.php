@@ -56,15 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = NULL;
         } elseif ($_FILES["profile_image"]["error"] != 0) {
             // Gérer les erreurs de téléchargement
-            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur: " . $_FILES["profile_image"]["error"];
+            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur : " . $_FILES["profile_image"]["error"];
         } else {
             $file = $_FILES["profile_image"];
             $allowedMimeTypes = ['image/jpeg', 'image/png'];
 
             if (!in_array($file['type'], $allowedMimeTypes)) {
                 $image_err = "Type de fichier non autorisé. Seuls JPEG et PNG sont acceptés.";
-            } elseif ($file['size'] > 5000000) { // 5MB max
-                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5MB.";
+            } elseif ($file['size'] > 5000000) { // 5 MB max
+                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5 MB.";
             } else {
                 $imageData = file_get_contents($file['tmp_name']);
                 $image = base64_encode($imageData);
@@ -132,25 +132,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Créer un Nouvel fête</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
             <div>
+
                 <label>Titre du le fête</label>
+
                 <input type="text" name="title" maxlength="50" value="<?php echo $title; ?>">
                 <span><?php echo $title_err; ?></span>
             </div>
             <div>
-                <label>Descripton</label>
-                <textarea name="description" rows="5" collumn="3"><?php echo $description; ?></textarea>
+                <label>Description</label>
+                <textarea name="description" rows="5" cols="3"><?php echo $description; ?></textarea>
                 <span><?php echo $description_err; ?></span>
             </div>
             <div>
+
                 <label>Date du le fête</label>
+
                 <input type="datetime-local" name="event_date" value="<?php echo $event_date; ?>">
                 <span><?php echo $event_date_err; ?></span>
             </div>
             <div>
-                <label>Liieu</label>
+                <label>Lieu</label>
                 <input type="text" name="location" maxlength="60" value="<?php echo $location; ?>">
                 <span><?php echo $location_err; ?></span>
             </div>
+
+
             <div>
                 <label>fête Public</label>
                 <input type="checkbox" name="is_public" <?php echo $is_public ? 'checked' : ''; ?>>
@@ -179,3 +185,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
