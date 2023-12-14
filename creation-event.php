@@ -12,7 +12,7 @@ require_once "includes/config.php";
 
 // Définir des variables et les initialiser avec des valeurs vides
 $title = $description = $event_date = $location = $image = "";
-$is_public = 1; // Valeur par défaut pour l'événement public
+$is_public = 1; // Valeur par défaut pour l'fête public
 $title_err = $description_err = $event_date_err = $location_err = $image_err = "";
 
 // Traitement des données du formulaire lors de la soumission
@@ -32,16 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $description = trim($_POST["description"]);
     }
 
-    // Valider la date de l'événement
+    // Valider la date de l'fête
     if (empty(trim($_POST["event_date"]))) {
-        $event_date_err = "Veuillez entrer une date pour l'événement.";
+        $event_date_err = "Veuillez entrer une date pour l'fête.";
     } else {
         $event_date = trim($_POST["event_date"]);
     }
 
     // Valider le lieu
     if (empty(trim($_POST["location"]))) {
-        $location_err = "Veuillez entrer un lieu pour l'événement.";
+        $location_err = "Veuillez entrer un lieu pour l'fête.";
     } else {
         $location = trim($_POST["location"]);
     }
@@ -56,15 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = NULL;
         } elseif ($_FILES["profile_image"]["error"] != 0) {
             // Gérer les erreurs de téléchargement
-            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur: " . $_FILES["profile_image"]["error"];
+            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur : " . $_FILES["profile_image"]["error"];
         } else {
             $file = $_FILES["profile_image"];
             $allowedMimeTypes = ['image/jpeg', 'image/png'];
 
             if (!in_array($file['type'], $allowedMimeTypes)) {
                 $image_err = "Type de fichier non autorisé. Seuls JPEG et PNG sont acceptés.";
-            } elseif ($file['size'] > 5000000) { // 5MB max
-                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5MB.";
+            } elseif ($file['size'] > 5000000) { // 5 MB max
+                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5 MB.";
             } else {
                 $imageData = file_get_contents($file['tmp_name']);
                 $image = base64_encode($imageData);
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Tenter d'exécuter la déclaration préparée
             if ($stmt->execute()) {
-                // Rediriger vers la liste des événements ou une page de confirmation
+                // Rediriger vers la liste des fêtes ou une page de confirmation
                 header("location: event-list.php");
             } else {
                 echo "Oops! Quelque chose s'est mal passé. Veuillez réessayer plus tard.";
@@ -129,34 +129,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include('includes/header.php'); ?> <!-- En-tête du site -->
 
     <div class="container">
-        <h2>Créer un Nouvel Événement</h2>
+        <h2>Créer un Nouvel fête</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
             <div>
-                <label>Titre du le Événement</label>
+
+                <label>Titre du le fête</label>
+
                 <input type="text" name="title" maxlength="50" value="<?php echo $title; ?>">
                 <span><?php echo $title_err; ?></span>
             </div>
             <div>
-                <label>Descripton</label>
-                <textarea name="description" rows="5" collumn="3"><?php echo $description; ?></textarea>
+                <label>Description</label>
+                <textarea name="description" rows="5" cols="3"><?php echo $description; ?></textarea>
                 <span><?php echo $description_err; ?></span>
             </div>
             <div>
-                <label>Date du le Événement</label>
+
+                <label>Date du le fête</label>
+
                 <input type="datetime-local" name="event_date" value="<?php echo $event_date; ?>">
                 <span><?php echo $event_date_err; ?></span>
             </div>
             <div>
-                <label>Liieu</label>
+                <label>Lieu</label>
                 <input type="text" name="location" maxlength="60" value="<?php echo $location; ?>">
                 <span><?php echo $location_err; ?></span>
             </div>
+
+
             <div>
-                <label>Événement Public</label>
+                <label>fête Public</label>
                 <input type="checkbox" name="is_public" <?php echo $is_public ? 'checked' : ''; ?>>
             </div>
             <div>
-                <label>Image de l'Événement</label>
+                <label>Image de l'fête</label>
                 <label for="fileInput" class="custom-file-input">Selectionne une photo</label>
                 <input type="file" id="fileInput" name="profile_image" accept="image/*" style="display: none;">
                 <span><?php echo $image_err; ?></span>
@@ -179,3 +185,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
