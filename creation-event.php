@@ -56,15 +56,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $image = NULL;
         } elseif ($_FILES["profile_image"]["error"] != 0) {
             // Gérer les erreurs de téléchargement
-            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur: " . $_FILES["profile_image"]["error"];
+            $image_err = "Erreur lors du téléchargement du fichier. Code d'erreur : " . $_FILES["profile_image"]["error"];
         } else {
             $file = $_FILES["profile_image"];
             $allowedMimeTypes = ['image/jpeg', 'image/png'];
 
             if (!in_array($file['type'], $allowedMimeTypes)) {
                 $image_err = "Type de fichier non autorisé. Seuls JPEG et PNG sont acceptés.";
-            } elseif ($file['size'] > 5000000) { // 5MB max
-                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5MB.";
+            } elseif ($file['size'] > 5000000) { // 5 MB max
+                $image_err = "Le fichier est trop volumineux. Taille maximale autorisée : 5 MB.";
             } else {
                 $imageData = file_get_contents($file['tmp_name']);
                 $image = base64_encode($imageData);
@@ -132,50 +132,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Créer un Nouvel Événement</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
             <div>
-                <label>Titre du le Événement</label>
+                <label>Titre de l'Événement</label>
                 <input type="text" name="title" maxlength="50" value="<?php echo $title; ?>">
                 <span><?php echo $title_err; ?></span>
             </div>
             <div>
-                <label>Descripton</label>
-                <textarea name="description" rows="5" collumn="3"><?php echo $description; ?></textarea>
+                <label>Description</label>
+                <textarea name="description" rows="5" cols="3"><?php echo $description; ?></textarea>
                 <span><?php echo $description_err; ?></span>
             </div>
             <div>
-                <label>Date du le Événement</label>
+                <label>Date de l'Événement</label>
                 <input type="datetime-local" name="event_date" value="<?php echo $event_date; ?>">
                 <span><?php echo $event_date_err; ?></span>
             </div>
             <div>
-                <label>Liieu</label>
+                <label>Lieu</label>
                 <input type="text" name="location" maxlength="60" value="<?php echo $location; ?>">
                 <span><?php echo $location_err; ?></span>
             </div>
-            <div>
-                <label>Événement Public</label>
-                <input type="checkbox" name="is_public" <?php echo $is_public ? 'checked' : ''; ?>>
-            </div>
-            <div>
-                <label>Image de l'Événement</label>
-                <label for="fileInput" class="custom-file-input">Selectionne une photo</label>
-                <input type="file" id="fileInput" name="profile_image" accept="image/*" style="display: none;">
-                <span><?php echo $image_err; ?></span>
-            </div>
-
-            <div>
-                <img id="imagePreview" src="" alt="Aperçu de l'image" style="max-width: 200px; max-height: 200px; display: none;" />
-            </div>
-
-            <div class="container_submit_button">
-                <button class="custom_button" type="submit">Créer l'évènement</button>
-            </div>
-        </form>
-    </div>
-
-    <?php include('includes/footer.php'); ?> <!-- Pied de page du site -->
-
-    <script src="js/create-event.js"></script>
-
-</body>
-
-</html>
+            <
